@@ -309,6 +309,9 @@ function initMap(lat = 17.3850, lng = 78.4867) {
         animation: google.maps.Animation.DROP
     });
 
+    // 🔥 IMPORTANT: Update address immediately
+    updateLocation(lat, lng);
+
     google.maps.event.addListener(marker, 'dragend', () => {
         const p = marker.getPosition();
         updateLocation(p.lat(), p.lng());
@@ -319,6 +322,7 @@ function initMap(lat = 17.3850, lng = 78.4867) {
         updateLocation(e.latLng.lat(), e.latLng.lng());
     });
 }
+
 
 function updateLocation(lat, lng) {
     document.getElementById("lat").value = lat;
