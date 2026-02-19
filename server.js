@@ -16,7 +16,7 @@ mongoose
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 
-const LockerRequest = require('./models/LockerRequestSchema.js');
+const LockerRequest = require("./models/lockerRequestSchema")
 
 
 app.get('/', (req, res) => {
