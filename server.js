@@ -38,7 +38,17 @@ app.post('/api/locker/request', async (req, res) => {
       lng
     } = req.body;
 
-    if (!name || !phone || !reason || !locationText || !areaType || !urgencyLevel || !lat || !lng) {
+   if (
+  !name?.trim() ||
+  !phone ||
+  !reason?.trim() ||
+  !locationText?.trim() ||
+  !areaType ||
+  !urgencyLevel ||
+  !lat ||
+  !lng
+){
+
       return res.status(400).json({
         success: false,
         message: "All fields including map location are required."

@@ -348,19 +348,53 @@ function openMapModal() {
 
 function closeMapModal() { modal.style.display = 'none'; }
 
-// Form Handling
 document.getElementById('requestForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+
     const btn = document.getElementById('btnText');
+    const statusBox = document.getElementById('status');
+
     btn.innerText = 'SENDING...';
-    // Logic for fetch remains same as your original
-    setTimeout(() => {
-        document.getElementById('status').style.display = 'block';
-        document.getElementById('status').className = 'success';
-        document.getElementById('status').innerText = '✨ Request Received!';
-        btn.innerText = 'SUBMIT REQUEST';
-    }, 1500);
+    btn.disabled = true;
+
+    const formData = Object.fromEntries(new FormData(e.target).entries());
+
+    try {
+        const res = await fetch('/api/locker/request', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await res.json();
+
+        statusBox.style.display = 'block';
+
+        if (result.success) {
+            statusBox.className = 'success';
+            statusBox.innerText = '✨ Request Received!';
+            e.target.reset();
+        } else {
+            statusBox.className = 'error';
+            statusBox.innerText = result.message || 'Something went wrong.';
+        }
+
+    } catch (err) {
+        console.error(err);
+        statusBox.style.display = 'block';
+        statusBox.className = 'error';
+        statusBox.innerText = 'Server error. Try again.';
+    }
+
+    btn.innerText = 'SUBMIT REQUEST';
+    btn.disabled = false;
 });
+
+
+
+
 </script>
 
 </body>
